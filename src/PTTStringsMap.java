@@ -1,6 +1,5 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 
