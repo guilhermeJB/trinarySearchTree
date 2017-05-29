@@ -1,14 +1,15 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 
 	private int size;
 	private Node<V> root;
+	private int indice;
 
 
 	public PTTStringsMap(){
-		//		root = new Node<V>();
 	}
 
 	public boolean containsKey(String key) {
@@ -57,25 +58,25 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 		root = put(root, key, val, 0);
 	}
 
-	private Node<V> put(Node<V> x, String key, V val, int d) {
-		char c = key.charAt(d);
-		if (x == null) {
-			x = new Node<V>();
-			x.character = c;
+	private Node<V> put(Node<V> noh, String key, V val, int indiceKey) {
+		char c = key.charAt(indiceKey);
+		if (noh == null) {
+			noh = new Node<V>();
+			noh.character = c;
 		}
-		if (c < x.character)
-			x.left  = put(x.left,  key, val, d);
+		if (c < noh.character)
+			noh.left  = put(noh.left,  key, val, indiceKey);
 
-		else if (c > x.character)  
-			x.right = put(x.right, key, val, d);
+		else if (c > noh.character)  
+			noh.right = put(noh.right, key, val, indiceKey);
 
-		else if (d < key.length() - 1)
-			x.mid   = put(x.mid,   key, val, d+1);
+		else if (indiceKey < key.length() - 1)
+			noh.mid   = put(noh.mid,   key, val, indiceKey+1);
 
 		else 
-			x.value   = val;
+			noh.value   = val;
 
-		return x;
+		return noh;
 	}
 
 	@Override
@@ -124,7 +125,25 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 
 	@Override
 	public String toString() {
-		return "mapa: " + keys();
+		StringBuilder sb1 = new StringBuilder("[");
+		appends(root, indice, sb1);
+		sb1.append("]");
+		if(sb1.length() > 3)
+			sb1.deleteCharAt(sb1.length() - 2);
+		String s = sb1.toString();
+		return s.replaceAll("," , ", ");
+	}
+
+	private void appends(Node<V> noh, int index, StringBuilder sb1) {
+		indice = sb1.length();
+		if(noh != null){
+			sb1.append(noh.character);
+			appends(noh.mid, sb1.length(), sb1);
+			if(sb1.charAt(indice - 1) != ',')
+				sb1.append(',');
+			appends(noh.left, sb1.length(), sb1);
+			appends(noh.right, sb1.length(), sb1);
+		}
 	}
 
 	//acabar isto
@@ -138,7 +157,7 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 		return clone;
 	}
 
-	
+
 	public Iterable<String> keysStartingWith(String pref){
 		if (pref == null) {
 			throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
@@ -155,9 +174,6 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 
 		return queue;
 	}
-
-
-
 
 	//private Node class (ex 1)
 	private class Node<V>{
@@ -176,19 +192,19 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 
 		private Node(){
 			this.value = null;
-			this.character = 0;
 			this.left = null;
 			this.right = null;
 			this.mid = null;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		PTTStringsMap<String> v = new PTTStringsMap<>();
+		System.out.println(v.toString());
 		v.put("ola", "2");
 		v.put("adeus", "3");
 		v.put("xau", "0");
-		
+
 		PTTStringsMap<String> v2 = v.clone();
 		System.out.println("v: ");
 		System.out.println(v.toString());
