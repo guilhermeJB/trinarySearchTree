@@ -4,8 +4,8 @@ import java.util.ArrayDeque;
  * Creates a trinary search tree using StringsMap
  * 		as to store the data
  * 
- * @author Guilherme Bernardo Nº 49504
- * @author Bruno Teixeira Nº 49498
+ * @author Guilherme Bernardo NÂº 49504
+ * @author Bruno Teixeira NÂº 49498
  * 
  * @param <V>
  */
@@ -189,37 +189,25 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 		collectsKeys(noh.right, sb1, ad);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((root == null) ? 0 : root.hashCode());
-		return result;
-	}
+// 	//ver isto
 
-
-	//ver isto
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || !(obj instanceof PTTStringsMap))
-			return false;
-		PTTStringsMap other = (PTTStringsMap) obj;
-		if (root == null) {
-			if (other.root != null)
-				return false;
-		} else if (!root.equals(other.root))
-			return false;
-		return true;
-	}
+// 	/* (non-Javadoc)
+// 	 * @see java.lang.Object#equals(java.lang.Object)
+// 	 */
+// 	@Override
+// 	public boolean equals(Object obj) {
+// 		if (this == obj)
+// 			return true;
+// 		if (obj == null || !(obj instanceof PTTStringsMap))
+// 			return false;
+// 		PTTStringsMap other = (PTTStringsMap) obj;
+// 		if (root == null) {
+// 			if (other.root != null)
+// 				return false;
+// 		} else if (!root.equals(other.root))
+// 			return false;
+// 		return true;
+// 	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -286,8 +274,8 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 	/**
 	 * Node private class
 	 * 
-	 * @author Guilherme Bernardo Nº 49504
-	 * @author Bruno Teixeira Nº 49498
+	 * @author Guilherme Bernardo NÂº 49504
+	 * @author Bruno Teixeira NÂº 49498
 	 *
 	 * @param <V>
 	 */
