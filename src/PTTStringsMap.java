@@ -4,8 +4,8 @@ import java.util.ArrayDeque;
  * Creates a trinary search tree using StringsMap
  * 		as to store the data
  * 
- * @author Guilherme Bernardo NÂº 49504
- * @author Bruno Teixeira NÂº 49498
+ * @author Guilherme Bernardo Nº 49504
+ * @author Bruno Teixeira Nº 49498
  * 
  * @param <V>
  */
@@ -38,9 +38,7 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 
 	/* ************ METHODS ************ */
 
-	/* (non-Javadoc)
-	 * @see StringsMap#containsKey(java.lang.String)
-	 */
+
 	@Override
 	public boolean containsKey(String key) {
 		if(key == null)
@@ -65,9 +63,7 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see StringsMap#get(java.lang.String)
-	 */
+
 	@Override
 	public V get(String key) {
 		if(key == null)
@@ -105,17 +101,13 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 			return currentNode;
 	}
 
-	/* (non-Javadoc)
-	 * @see StringsMap#size()
-	 */
+
 	@Override
 	public int size() {
 		return size;
 	}
 
-	/* (non-Javadoc)
-	 * @see StringsMap#put(java.lang.String, java.lang.Object)
-	 */
+
 	@Override
 	public void put(String key, V val) {
 		if (key == null) {
@@ -137,7 +129,7 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 	 * @requires noh != null && key != null && key.length > 0
 	 * 				&& val != null && indiceKey >= 0
 	 */
-	private Node<V> put(Node<V> noh, String key, V val, int indiceKey) {
+	private Node<V> put(PTTStringsMap<V>.Node<V> noh, String key, V val, int indiceKey) {
 		char c = key.charAt(indiceKey);
 		if (noh == null) {
 			noh = new Node<V>();
@@ -158,9 +150,7 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 		return noh;
 	}
 
-	/* (non-Javadoc)
-	 * @see StringsMap#keys()
-	 */
+
 	@Override
 	public Iterable<String> keys() {
 		ArrayDeque<String> ad = new ArrayDeque<String>();
@@ -189,29 +179,60 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 		collectsKeys(noh.right, sb1, ad);
 	}
 
-// 	//ver isto
 
-// 	/* (non-Javadoc)
-// 	 * @see java.lang.Object#equals(java.lang.Object)
-// 	 */
-// 	@Override
-// 	public boolean equals(Object obj) {
-// 		if (this == obj)
-// 			return true;
-// 		if (obj == null || !(obj instanceof PTTStringsMap))
-// 			return false;
-// 		PTTStringsMap other = (PTTStringsMap) obj;
-// 		if (root == null) {
-// 			if (other.root != null)
-// 				return false;
-// 		} else if (!root.equals(other.root))
-// 			return false;
-// 		return true;
-// 	}
+	@Override
+	public boolean equals(Object other) {
+		return this == other || other instanceof PTTStringsMap &&
+				equalStringsMap((PTTStringsMap<V>) other);
+	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * Verifies whether a given PTTStringsMap is equal to this
+	 * 
+	 * @param other the PTTStringsMap to verify
+	 * @return true if is equals; false otherwise
 	 */
+	private boolean equalStringsMap(PTTStringsMap<V> other) {
+		if(other == null)
+			return false;
+		Node<V> p = this.root;
+		Node<V> q = other.root;
+
+		if(this.size != other.size)
+			return false;
+
+		return equalStringsMap(p, q);
+	}
+
+
+	/**
+	 * Verifies whether two given nodes are equal
+	 * 
+	 * @param p one node
+	 * @param q another node
+	 * @return true if both nodes are equal; false otherwise
+	 */
+	private boolean equalStringsMap(Node<V> p, Node<V> q) {
+		if(p == null && q != null || p != null && q == null)
+			return false;
+		else{
+			if(p != null && q != null){
+				if(Character.toString(q.character).equals(Character.toString(p.character))){
+					if (equalStringsMap(p.mid, q.mid)){
+						if(equalStringsMap(p.left, q.left))
+							return equalStringsMap(p.right, q.right);
+						else
+							return false;
+					}else
+						return false;
+				}else
+					return false;
+			}
+		}
+		return true;
+	}
+
+	
 	@Override
 	public String toString() {
 		ArrayDeque<String> ad = new ArrayDeque<String>();
@@ -219,9 +240,7 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 		return ad.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 */
+
 	@Override
 	public PTTStringsMap<V> clone(){
 		PTTStringsMap<V> clone  = new PTTStringsMap<>();
@@ -274,8 +293,8 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 	/**
 	 * Node private class
 	 * 
-	 * @author Guilherme Bernardo NÂº 49504
-	 * @author Bruno Teixeira NÂº 49498
+	 * @author Guilherme Bernardo Nº 49504
+	 * @author Bruno Teixeira Nº 49498
 	 *
 	 * @param <V>
 	 */
@@ -329,34 +348,5 @@ public class PTTStringsMap<V> implements StringsMap<V>, Cloneable{
 			this.right = null;
 			this.mid = null;
 		}
-	}
-
-	public static void main(String[] args) {
-		PTTStringsMap<String> v = new PTTStringsMap<>();
-		v.put("ol", "7");
-		v.put("olga", "2");
-		v.put("olaria", "5");
-		v.put("otario", "0");
-		v.put("oppita", "4");
-		v.put("ogf", "1");
-
-		System.out.println("v: ");
-		System.out.println(v.toString());
-		System.out.println("get: " + v.get("ol"));
-		System.out.println("contains: (olga)" + v.containsKey("olga"));
-		System.out.println("contains: (pita)" + v.containsKey("pita"));
-		System.out.println("size: " + v.size());
-		System.out.println("chaves: " + v.keys());
-		System.out.println("comecarPor (ol): " + v.keysStartingWith("ol"));
-
-		PTTStringsMap<String> v2 = v.clone();
-		System.out.println("v2: ");
-		System.out.println(v2.toString());
-		System.out.println("get: " + v2.get("ol"));
-		System.out.println("contains: (olga)" + v2.containsKey("olga"));
-		System.out.println("contains: (pita)" + v2.containsKey("pita"));
-		System.out.println("size: " + v2.size());
-		System.out.println("chaves: " + v2.keys());
-		System.out.println("comecarPor (ol): " + v2.keysStartingWith("ol"));
 	}
 }
